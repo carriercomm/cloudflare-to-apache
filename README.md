@@ -14,5 +14,5 @@ IP - - [Request date string]<space>"Request"<space>Response code<space>-<space>"
 # Usage
 
 ```
-node index <input file> <output file>
+node index < <input file> > <output file>
 ```
