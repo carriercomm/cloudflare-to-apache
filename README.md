@@ -6,7 +6,7 @@ A small script to convert [Cloudflare](http://www.cloudflare.com) log format to 
 # Cloudflare format
 
 ```
-host<space>IP<space>Request timestamp<space>"Request"<space>Response code<space>Response time<space>"User Agent"<space>"Unknown"<space>"Referrer"
+host<space>IP<space>Request timestamp<space>"Request"<space>Response code<space>Response time<space>"User Agent"<space>"Bot?"<space>"Referrer"
 ```
 
 # Apache format
