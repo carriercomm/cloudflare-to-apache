@@ -15,10 +15,19 @@ host<space>IP<space>Request timestamp<space>"Request"<space>Response code<space>
 IP - - [Request date string]<space>"Request"<space>Response code<space>-<space>"Referrer"<space>"User agent"
 ```
 
+# Easy usage
+
+```bash
+npm i -g cloudflare-to-apache
+cloudflare-to-apache < inpuFile > outputFile
+```
+
 # Usage
 
-```
+```bash
 node index < $inputFile > $outputFile
 ```
+
+# Status
 
 [![Dependency Status](https://david-dm.org/surevine/cloudflare-to-apache.svg)](https://david-dm.org/surevine/cloudflare-to-apache)
