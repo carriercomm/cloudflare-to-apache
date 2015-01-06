@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-sed -ie 's/\r/\n/' test/input.log
 node index < test/input.log > test/output.log 
 
 if [[ -n $(diff test/output.log test/correct-output.log) ]]; 
