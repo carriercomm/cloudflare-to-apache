@@ -1,0 +1,25 @@
+{
+  "name": "cloudflare-to-apache",
+  "version": "1.0.0",
+  "description": "Script to convert Cloudflare log format to Apache log format",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/surevine/clareflare-to-apache.git"
+  },
+  "keywords": [
+    "cloudflare",
+    "apache",
+    "logs",
+    "convert"
+  ],
+  "author": "Lloyd Watkin <lloyd.watkin@surevine.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/surevine/clareflare-to-apache/issues"
+  },
+  "homepage": "https://github.com/surevine/clareflare-to-apache"
+}
