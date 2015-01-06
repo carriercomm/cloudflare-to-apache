@@ -2,6 +2,10 @@
 
 node index < test/input.log > test/output.log 
 
+echo "Generated output file with "
+wc -l test/output.log
+echo "lines"
+
 if [[ -n $(diff test/output.log test/correct-output.log) ]]; 
 then
   echo 'Fail';
