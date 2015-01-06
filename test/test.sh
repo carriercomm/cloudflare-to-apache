@@ -6,10 +6,10 @@ echo "Generated output file with "
 wc -l test/output.log
 echo "lines"
 
-if [[ -n $(diff test/output.log test/correct-output.log) ]]; 
+if [[ -n $(diff --strip-trailing-cr test/output.log test/correct-output.log) ]]; 
 then
   echo 'Fail';
-  diff test/output.log test/correct-output.log;
+  diff --strip-trailing-cr test/output.log test/correct-output.log;
   exit 1;
 else 
   echo 'Pass';
