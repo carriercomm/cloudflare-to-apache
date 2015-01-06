@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/surevine/clareflare-to-apache/issues"
   },
-  "homepage": "https://github.com/surevine/clareflare-to-apache"
+  "homepage": "https://github.com/surevine/clareflare-to-apache",
+  "dependencies": {
+    "colors": "^1.0.3"
+  }
 }
