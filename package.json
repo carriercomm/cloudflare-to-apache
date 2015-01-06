@@ -26,6 +26,6 @@
     "colors": "^1.0.3"
   },
   "bin": {
-    "cloudflare-to-apache": './index.js"
+    "cloudflare-to-apache": "./index.js"
   }
 }
