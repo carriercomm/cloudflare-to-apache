@@ -24,5 +24,8 @@
   "homepage": "https://github.com/surevine/clareflare-to-apache",
   "dependencies": {
     "colors": "^1.0.3"
+  },
+  "bin": {
+    "cloudflare-to-apache": './index.js"
   }
 }
