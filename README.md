@@ -40,6 +40,8 @@ DEBUG=* node index apache.log < $inputFile
 
 # Status
 
+Tests currently run fine on Ubuntu (14.04) and OSX, not sure why they aren't running on travisci. Need to investigate and fix.
+
 [![Build Status](https://secure.travis-ci.org/surevine/cloudflare-to-apache.svg)](http://travis-ci.org/surevine/cloudflare-to-apache)
 
 [![Dependency Status](https://david-dm.org/surevine/cloudflare-to-apache.svg)](https://david-dm.org/surevine/cloudflare-to-apache)
