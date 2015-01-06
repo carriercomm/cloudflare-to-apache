@@ -16,3 +16,5 @@ IP - - [Request date string]<space>"Request"<space>Response code<space>-<space>"
 ```
 node index < $inputFile > $outputFile
 ```
+
+[![Dependency Status](https://david-dm.org/surevine/cloudflare-to-apache.svg)](https://david-dm.org/surevine/cloudflare-to-apache)
