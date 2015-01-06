@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-to-apache",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Script to convert Cloudflare log format to Apache log format",
   "main": "index.js",
   "scripts": {
