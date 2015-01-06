@@ -40,4 +40,6 @@ DEBUG=* node index apache.log < $inputFile
 
 # Status
 
+[![Build Status](https://secure.travis-ci.org/surevine/cloudflare-to-apache.svg)](http://travis-ci.org/surevine/cloudflare-to-apache)
+
 [![Dependency Status](https://david-dm.org/surevine/cloudflare-to-apache.svg)](https://david-dm.org/surevine/cloudflare-to-apache)
