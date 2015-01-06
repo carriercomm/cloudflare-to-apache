@@ -15,18 +15,28 @@ host<space>IP<space>Request timestamp<space>"Request"<space>Response code<space>
 IP - - [Request date string]<space>"Request"<space>Response code<space>-<space>"Referrer"<space>"User agent"
 ```
 
-# Easy usage
+# Usage
+
+## Simple 
 
 ```bash
 npm i -g cloudflare-to-apache
 cloudflare-to-apache < inpuFile > outputFile
 ```
 
-# Usage
+## Manual
 
 ```bash
 node index < $inputFile > $outputFile
 ```
+
+## Outputting to a file
+
+```bash
+DEBUG=* node index apache.log < $inputFile
+```
+
+`DEBUG=*` outputs debug information to the terminal.
 
 # Status
 

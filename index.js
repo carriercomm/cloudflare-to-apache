@@ -1,5 +1,10 @@
-var Transform = require('stream').Transform
+var Transform = require('stream').Transform || require('readable-stream').Transform 
+  , log = require('debug')('index')
+  , fs = require('fs')
+
 require('colors')
+
+var totalRecords = 0
 
 var getFormattedDate = function(date) {
     var months = [ 0, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev' ]
@@ -41,11 +46,19 @@ var writeApacheFormat = function(transformed) {
   ].join('')
 }
 
+var hangover = null
+
 var transformRecord = function(record) {
   var transformed = {}
+  if (hangover) {
+      record = hangover + record
+      log('Appending hangover, record now:\n' + record)
+      hangover = null
+  }
   var initialPart = record.split(' ', 3)
   if (initialPart.length < 3) {
-    return
+    hangover = record
+    throw new Error('Initial part not 3 records long! ' + initialPart.length)
   }
   transformed.host = initialPart[0]
   transformed.ip = initialPart[1]
@@ -54,6 +67,10 @@ var transformRecord = function(record) {
   var nextPart =  /^"(.*)" ([0-9]*) ([0-9]*) "(.*)" "(.*)" "(.*)"$/
     .exec(record.substring(initialPart.join(' ').length + 1))
 
+  if (!nextPart) {
+    hangover = record
+    throw new Error('Could not transform record: ' + record)
+  }
   transformed.request = nextPart[1]
   transformed.responseCode = parseInt(nextPart[2])
   transformed.responseTime = parseInt(nextPart[3])
@@ -65,14 +82,34 @@ var transformRecord = function(record) {
   return writeApacheFormat(transformed)
 }
 
-var parser = new Transform();
+var parser = new Transform()
 parser._transform = function(records, encoding, done) {
-  records.toString('utf8').split('\n').forEach(function(record) {
-    this.push(transformRecord(record))
+  var recordSet = records.toString('utf8').split('\n')
+  log(recordSet.length + ' records in this set')
+  recordSet.forEach(function(record) {
+    try {
+      this.push(transformRecord(record))
+      ++totalRecords
+    } catch (e) {
+      log(e.message)
+    }
   }, this)
   done()
 }
 
+var writeStream = process.stdout
+
+if (process.argv[2]) {
+  log('Outputting to file ' + process.argv[2])
+  writeStream = fs.createWriteStream(process.argv[2])
+}
+
+process.stdin.setEncoding('utf8')
+
 process.stdin
   .pipe(parser)
-  .pipe(process.stdout)
+  .pipe(writeStream)
+  .on('finish', function() {
+    log(('Done, total records ' + totalRecords).green)
+    process.exit(0)
+  })
