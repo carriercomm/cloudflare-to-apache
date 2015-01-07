@@ -6,11 +6,76 @@ var Transform = require('stream').Transform || require('readable-stream').Transf
 require('colors')
 
 var totalRecords = 0
-var dataFormat = 'new'
 var hangover = null
 
+var convertDataFormat = function(record) {
+  var transformed = {}
+  if (hangover) {
+      record = hangover + record
+      log('Appending hangover, record now:\n' + record)
+      hangover = null
+  }
+  var initialPart = record.split(' ', 3)
+  if (initialPart.length < 3) {
+    hangover = record
+    throw new Error('Initial part not 3 records long! ' + initialPart.length)
+  }
+  transformed.host = initialPart[0]
+  transformed.ip = initialPart[1]
+  transformed.date = new Date(parseInt(initialPart[2]) * 1000)
+  transformed.rawTimestamp = parseInt(initialPart[2])
+  var nextPart =  /^"(.*)" ([0-9]*) ([0-9]*) "(.*)" "(.*)" "(.*)"$/
+    .exec(record.substring(initialPart.join(' ').length + 1))
+
+  if (!nextPart) {
+    hangover = record
+    throw new Error('Could not transform record: ' + record)
+  }
+  transformed.request = nextPart[1]
+  transformed.responseCode = parseInt(nextPart[2])
+  transformed.responseTime = parseInt(nextPart[3])
+  transformed.userAgent = nextPart[4]
+  transformed.bot = nextPart[5]
+  transformed.referrer = nextPart[6]
+  nextPart = null
+  initialPart = null
+  return transformed
+}
+
 if (argv.f && ('old' === argv.f.toLowerCase())) {
-  dataFormat = 'old'
+  convertDataFormat = function(record) {
+    var transformed = {}
+    if (hangover) {
+      record = hangover + record
+      log('Appending hangover, record now:\n' + record)
+      hangover = null
+    }
+    var initialPart = record.split(' ', 3)
+    if (initialPart.length < 3) {
+      hangover = record
+      throw new Error('Initial part not 3 records long! ' + initialPart.length)
+    }
+    transformed.host = initialPart[0]
+    transformed.ip = initialPart[1]
+    transformed.date = new Date(parseInt(initialPart[2]) * 1000)
+    transformed.rawTimestamp = parseInt(initialPart[2])
+    var nextPart =  /^"(.*)" ([0-9]*) ([0-9]*) "(.*)" "(.*)" "(.*)"$/
+      .exec(record.substring(initialPart.join(' ').length + 1))
+
+    if (!nextPart) {
+      hangover = record
+      throw new Error('Could not transform record: ' + record)
+    }
+    transformed.request = nextPart[1]
+    transformed.responseCode = parseInt(nextPart[2])
+    transformed.responseTime = parseInt(nextPart[3])
+    transformed.userAgent = nextPart[4]
+    transformed.bot = nextPart[5]
+    transformed.referrer = nextPart[6]
+    nextPart = null
+    initialPart = null
+    return transformed
+  }
 }
 
 var getFormattedDate = function(date) {
@@ -54,36 +119,7 @@ var writeApacheFormat = function(transformed) {
 }
 
 var transformRecord = function(record) {
-  var transformed = {}
-  if (hangover) {
-      record = hangover + record
-      log('Appending hangover, record now:\n' + record)
-      hangover = null
-  }
-  var initialPart = record.split(' ', 3)
-  if (initialPart.length < 3) {
-    hangover = record
-    throw new Error('Initial part not 3 records long! ' + initialPart.length)
-  }
-  transformed.host = initialPart[0]
-  transformed.ip = initialPart[1]
-  transformed.date = new Date(parseInt(initialPart[2]) * 1000)
-  transformed.rawTimestamp = parseInt(initialPart[2])
-  var nextPart =  /^"(.*)" ([0-9]*) ([0-9]*) "(.*)" "(.*)" "(.*)"$/
-    .exec(record.substring(initialPart.join(' ').length + 1))
-
-  if (!nextPart) {
-    hangover = record
-    throw new Error('Could not transform record: ' + record)
-  }
-  transformed.request = nextPart[1]
-  transformed.responseCode = parseInt(nextPart[2])
-  transformed.responseTime = parseInt(nextPart[3])
-  transformed.userAgent = nextPart[4]
-  transformed.bot = nextPart[5]
-  transformed.referrer = nextPart[6]
-  nextPart = null
-  initialPart = null
+  var transformed = convertDataFormat(record)
   return writeApacheFormat(transformed)
 }
 
