@@ -6,6 +6,12 @@ var Transform = require('stream').Transform || require('readable-stream').Transf
 require('colors')
 
 var totalRecords = 0
+var dataFormat = 'new'
+var hangover = null
+
+if (argv.f && ('old' === argv.f.toLowerCase())) {
+  dataFormat = 'old'
+}
 
 var getFormattedDate = function(date) {
     var months = [ 0, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev' ]
@@ -46,8 +52,6 @@ var writeApacheFormat = function(transformed) {
       '"\n'
   ].join('')
 }
-
-var hangover = null
 
 var transformRecord = function(record) {
   var transformed = {}
