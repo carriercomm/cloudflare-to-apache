@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo 'Running tests for old format data files'
+echo ''
+
 node index -f old < test/input.old.log > test/output.old.log 
 
 echo "Generated output file with "
