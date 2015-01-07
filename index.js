@@ -1,6 +1,7 @@
 var Transform = require('stream').Transform || require('readable-stream').Transform 
   , log = require('debug')('index')
   , fs = require('fs')
+  , argv = require('minimist')(process.argv.slice(2))
 
 require('colors')
 
@@ -99,9 +100,9 @@ parser._transform = function(records, encoding, done) {
 
 var writeStream = process.stdout
 
-if (process.argv[2]) {
-  log('Outputting to file ' + process.argv[2])
-  writeStream = fs.createWriteStream(process.argv[2])
+if (argv._[0]) {
+  log('Outputting to file ' + argv._[0])
+  writeStream = fs.createWriteStream(argv._[0])
 }
 
 process.stdin.setEncoding('utf8')
