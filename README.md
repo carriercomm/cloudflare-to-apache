@@ -5,6 +5,13 @@ A small script to convert [Cloudflare](http://www.cloudflare.com) log format to 
 
 # Cloudflare format
 
+
+## New format
+
+```
+host<space>IP<space>-<space>-<space>Request date<space>"Request"<space>Response code<space>Response time<space>"Referrer"<space>"User agent"<space>Hash
+```
+
 ## Old format
 
 ```
