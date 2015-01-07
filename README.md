@@ -5,6 +5,8 @@ A small script to convert [Cloudflare](http://www.cloudflare.com) log format to 
 
 # Cloudflare format
 
+## Old format
+
 ```
 host<space>IP<space>Request timestamp<space>"Request"<space>Response code<space>Response time<space>"User Agent"<space>"Bot?"<space>"Referrer"
 ```
@@ -21,7 +23,13 @@ IP - - [Request date string]<space>"Request"<space>Response code<space>-<space>"
 
 ```bash
 npm i -g cloudflare-to-apache
-cloudflare-to-apache < inpuFile > outputFile
+cloudflare-to-apache < inputFile > outputFile
+```
+
+To convert the older style format simply do:
+
+```bash
+cloudflare-to-apache -f old < inputFile > outputFile
 ```
 
 ## Manual
